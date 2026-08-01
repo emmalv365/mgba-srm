@@ -263,6 +263,11 @@ bool mCoreAutoloadSave(struct mCore* core) {
 	mCoreConfigGetIntValue(&core->config, "savePlayerId", &savePlayerId);
 	if (savePlayerId > 1) {
 		snprintf(sav, sizeof(sav), ".sa%i", savePlayerId);
+	} else {
+		const char* extension = mCoreConfigGetValue(&core->config, "savegameExtension");
+		if (extension && extension[0]) {
+			snprintf(sav, sizeof(sav), "%s", extension);
+		}
 	}
 	return core->loadSave(core, mDirectorySetOpenSuffix(&core->dirs, core->dirs.save, sav, O_CREAT | O_RDWR));
 }
@@ -416,6 +421,7 @@ bool mCoreTakeScreenshotVF(struct mCore* core, struct VFile* vf) {
 
 void mCoreInitConfig(struct mCore* core, const char* port) {
 	mCoreConfigInit(&core->config, port);
+	mCoreConfigSetDefaultValue(&core->config, "savegameExtension", ".sav");
 }
 
 void mCoreLoadConfig(struct mCore* core) {
@@ -437,6 +443,7 @@ void mCoreLoadForeignConfig(struct mCore* core, const struct mCoreConfig* config
 	mCoreConfigCopyValue(&core->config, config, "cheatAutosave");
 	mCoreConfigCopyValue(&core->config, config, "cheatAutoload");
 	mCoreConfigCopyValue(&core->config, config, "savePlayerId");
+	mCoreConfigCopyValue(&core->config, config, "savegameExtension");
 
 	core->loadConfig(core, config);
 }

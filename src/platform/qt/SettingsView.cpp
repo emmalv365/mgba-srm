@@ -521,6 +521,7 @@ void SettingsView::updateConfig() {
 	saveSetting("muteOnFocusLost", m_ui.muteOnFocusLost);
 	saveSetting("muteOnMinimize", m_ui.muteOnMinimize);
 	saveSetting("savegamePath", m_ui.savegamePath);
+	saveSetting("savegameExtension", m_ui.savegameExtension->currentText());
 	saveSetting("savestatePath", m_ui.savestatePath);
 	saveSetting("screenshotPath", m_ui.screenshotPath);
 	saveSetting("patchPath", m_ui.patchPath);
@@ -745,6 +746,8 @@ void SettingsView::reloadConfig() {
 	loadSetting("muteOnFocusLost", m_ui.muteOnFocusLost);
 	loadSetting("muteOnMinimize", m_ui.muteOnMinimize);
 	loadSetting("savegamePath", m_ui.savegamePath);
+	int savegameExtension = m_ui.savegameExtension->findText(m_controller->getOption("savegameExtension", ".sav"));
+	m_ui.savegameExtension->setCurrentIndex(savegameExtension < 0 ? 0 : savegameExtension);
 	loadSetting("savestatePath", m_ui.savestatePath);
 	loadSetting("screenshotPath", m_ui.screenshotPath);
 	loadSetting("patchPath", m_ui.patchPath);

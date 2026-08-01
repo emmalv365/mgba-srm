@@ -1281,7 +1281,12 @@ void CoreController::updatePlayerSave() {
 
 	QString saveSuffix;
 	if (savePlayerId < 2) {
-		saveSuffix = QLatin1String(".sav");
+		const char* extension = mCoreConfigGetValue(&m_threadContext.core->config, "savegameExtension");
+		if (extension && extension[0]) {
+			saveSuffix = QLatin1String(extension);
+		} else {
+			saveSuffix = QLatin1String(".sav");
+		}
 	} else {
 		saveSuffix = QString(".sa%1").arg(savePlayerId);
 	}
